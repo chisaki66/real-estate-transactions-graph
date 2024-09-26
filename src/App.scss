@@ -22,6 +22,31 @@
 .main {
   height: 956px;
   background-color: #000000cc;
+
+  &__header {
+    padding: 40px 40px 0 40px;
+  }
+
+  &__title {
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 32px;
+    margin: 0;
+    border-bottom: 1px solid #ffffff33;
+
+    &--normal {
+      margin-left: 8px;
+    }
+
+    &--small {
+      font-size: 13.71px;
+      margin-left: 16px;
+    }
+  }
+
+  &__title-icon {
+    vertical-align: -5px;
+  }
 }
 
 .footer {
@@ -51,6 +76,7 @@
 
   &__left-icon {
     margin-left: 8px;
+    vertical-align: -2px;
   }
 
   &__right {

@@ -1,7 +1,8 @@
 import "./App.scss";
 import Graph from "./components/Graph";
-import logo_landit from "./images/logo_landit.png";
-import window_icon from "./images/window_icon.png";
+import logo_landit from "./images/logo_landit.svg";
+import graph_icon from "./images/graph_icon.svg";
+import window_icon from "./images/window_icon.svg";
 
 const App = () => {
   return (
@@ -12,6 +13,15 @@ const App = () => {
         </div>
       </header>
       <main className="main">
+        <div className="main__header">
+          <h1 className="main__title">
+            <i className="main__title-icon">
+              <img src={graph_icon} alt="widow_icon" />
+            </i>
+            <span className="main__title--normal">取引価格</span>
+            <span className="main__title--small">※取引面積1㎡あたり</span>
+          </h1>
+        </div>
         <Graph />
       </main>
       <footer className="footer">
