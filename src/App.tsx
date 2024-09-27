@@ -1,12 +1,13 @@
 import "./App.scss";
 import Graph from "./components/Graph";
+import Control from "./components/Control";
 import logo_landit from "./images/logo_landit.svg";
 import graph_icon from "./images/graph_icon.svg";
 import window_icon from "./images/window_icon.svg";
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="app">
       <header className="header">
         <div className="header__title">
           <img src={logo_landit} alt="logo" />
@@ -23,6 +24,7 @@ const App = () => {
           </h1>
         </div>
         <Graph />
+        <Control />
       </main>
       <footer className="footer">
         <div className="footer__left">
