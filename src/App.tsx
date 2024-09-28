@@ -15,6 +15,8 @@ interface DownloadData {
 const App = () => {
   const [realEstateTransactionPrice, setRealEstateTransactionPrice] =
     useState(0);
+  const [downloadYear, setDownloadYear] = useState(0);
+  const [downloadType, setDownloadType] = useState("");
 
   const URL = process.env.REACT_APP_RESAS_API_URL;
   const API_KEY = process.env.REACT_APP_RESAS_API_KEY;
@@ -40,7 +42,8 @@ const App = () => {
 
   const handleDataDownload = (data: DownloadData) => {
     fetchData(data.year, data.type);
-    console.log(data.year);
+    setDownloadYear(data.year);
+    setDownloadType(data.type);
   };
 
   return (
@@ -60,8 +63,14 @@ const App = () => {
             <span className="main__title--small">※取引面積1㎡あたり</span>
           </h1>
         </div>
-        <Graph />
-        <Control onDownload={handleDataDownload} />
+        <div className="contents">
+          <div className="graph-box">
+            <Graph year={downloadYear} type={downloadType} />
+          </div>
+          <div className="control">
+            <Control onDownload={handleDataDownload} />
+          </div>
+        </div>
       </main>
       <footer className="footer">
         <div className="footer__left">

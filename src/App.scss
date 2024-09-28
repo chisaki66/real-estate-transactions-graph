@@ -49,6 +49,18 @@
   }
 }
 
+.contents {
+  display: flex;
+}
+
+.graph-box {
+  width: 1457px;
+  height: 780px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .footer {
   height: 50px;
   background-color: #000000cc;
