@@ -8,22 +8,22 @@ import axios from "axios";
 import { useState } from "react";
 
 interface DownloadData {
+  year: number;
   type: string;
 }
 
 const App = () => {
-  const [populationData, setPopulationData] = useState({});
   const [realEstateTransactionPrice, setRealEstateTransactionPrice] =
     useState(0);
 
   const URL = process.env.REACT_APP_RESAS_API_URL;
   const API_KEY = process.env.REACT_APP_RESAS_API_KEY;
 
-  const fetchData = async (displayType: string) => {
+  const fetchData = async (year: number, displayType: string) => {
     try {
       await axios
         .get(
-          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=2015&prefCode=13&displayType=${displayType}`,
+          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=${year}&prefCode=13&displayType=${displayType}`,
           {
             headers: {
               "X-API-KEY": API_KEY,
@@ -31,8 +31,7 @@ const App = () => {
           },
         )
         .then((response) => {
-          setPopulationData(response.data);
-          console.log(response.data);
+          setRealEstateTransactionPrice(response.data.result?.years[0].value);
         });
     } catch (error) {
       console.error(error);
@@ -40,11 +39,8 @@ const App = () => {
   };
 
   const handleDataDownload = (data: DownloadData) => {
-    fetchData(data.type);
-    setRealEstateTransactionPrice(
-      (populationData as any).result?.years[0].value,
-    );
-    // console.log((populationData as any).result?.years[0].value);
+    fetchData(data.year, data.type);
+    console.log(data.year);
   };
 
   return (

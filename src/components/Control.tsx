@@ -5,14 +5,28 @@ import type_icon from "../images/type_icon.svg";
 import { useState } from "react";
 
 interface ControlProps {
-  onDownload: (data: { type: string }) => void;
+  onDownload: (data: { year: number; type: string }) => void;
 }
 
 const Control: React.FC<ControlProps> = ({ onDownload }) => {
+  const [selectedYear, setSelectedYear] = useState(0);
   const [selectedType, setSelectedType] = useState("");
+
+  const generateYears = () => {
+    // 年数は流動的でないため定数とする
+    const START_YEAR = 2009;
+    const END_YEAR = 2021;
+
+    const years = [];
+    for (let year = START_YEAR; year <= END_YEAR; year++) {
+      years.push(year);
+    }
+    return years;
+  };
 
   const handleDownload = () => {
     const dataToSend = {
+      year: selectedYear,
       type: selectedType,
     };
     onDownload(dataToSend);
@@ -45,8 +59,18 @@ const Control: React.FC<ControlProps> = ({ onDownload }) => {
             <span className="control__text">年度</span>
           </td>
           <td>
-            <select className="control__value" name="years">
-              <option value="2022">2022年</option>
+            <select
+              className="control__value"
+              name="years"
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+            >
+              {generateYears()
+                .reverse()
+                .map((year: number) => (
+                  <option key={year} value={year}>
+                    {year}年
+                  </option>
+                ))}
             </select>
           </td>
         </tr>
