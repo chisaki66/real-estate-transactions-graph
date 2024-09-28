@@ -12,11 +12,11 @@ const Control: React.FC<ControlProps> = ({ onDownload }) => {
   const [selectedYear, setSelectedYear] = useState(0);
   const [selectedType, setSelectedType] = useState("");
 
-  const generateYears = () => {
-    // 年数は流動的でないため定数とする
-    const START_YEAR = 2009;
-    const END_YEAR = 2021;
+  // MEMO: APIの指定可能年度を定数として定義
+  const START_YEAR = 2009;
+  const END_YEAR = 2021;
 
+  const generateYears = () => {
     const years = [];
     for (let year = START_YEAR; year <= END_YEAR; year++) {
       years.push(year);
@@ -24,10 +24,12 @@ const Control: React.FC<ControlProps> = ({ onDownload }) => {
     return years;
   };
 
+  const years = generateYears().reverse();
+
   const handleDownload = () => {
     const dataToSend = {
-      year: selectedYear,
-      type: selectedType,
+      year: selectedYear === 0 ? END_YEAR : selectedYear,
+      type: selectedType === "" ? "1" : selectedType,
     };
     onDownload(dataToSend);
   };
@@ -64,13 +66,11 @@ const Control: React.FC<ControlProps> = ({ onDownload }) => {
               name="years"
               onChange={(e) => setSelectedYear(Number(e.target.value))}
             >
-              {generateYears()
-                .reverse()
-                .map((year: number) => (
-                  <option key={year} value={year}>
-                    {year}年
-                  </option>
-                ))}
+              {years.map((year: number) => (
+                <option key={year} value={year}>
+                  {year}年
+                </option>
+              ))}
             </select>
           </td>
         </tr>
@@ -86,6 +86,7 @@ const Control: React.FC<ControlProps> = ({ onDownload }) => {
               type="radio"
               name="type"
               value="1"
+              checked
               onChange={(e) => setSelectedType(e.target.value)}
             />{" "}
             土地（住宅地）

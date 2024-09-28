@@ -69,6 +69,8 @@ const Graph: React.FC<GraphProps> = ({ year, type }) => {
         return "農地";
       case "5":
         return "林地";
+      default:
+        return "土地（住宅地）";
     }
   };
 
@@ -85,7 +87,7 @@ const Graph: React.FC<GraphProps> = ({ year, type }) => {
           <i>
             <img src={calendar_icon_white} alt="calendar_icon_white" />
           </i>
-          <span className="graph__text">{year}年</span>
+          <span className="graph__text">{year === 0 ? 2021 : year}年</span>
         </li>
         <li className="graph__header-list">
           <i>

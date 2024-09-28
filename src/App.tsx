@@ -42,6 +42,8 @@ const App = () => {
 
   const handleDataDownload = (data: DownloadData) => {
     fetchData(data.year, data.type);
+    console.log(data.year);
+    console.log(data.type);
     setDownloadYear(data.year);
     setDownloadType(data.type);
   };
