@@ -4,8 +4,49 @@ import Control from "./components/Control";
 import logo_landit from "./images/logo_landit.svg";
 import graph_icon from "./images/graph_icon.svg";
 import window_icon from "./images/window_icon.svg";
+import axios from "axios";
+import { useState } from "react";
+
+interface DownloadData {
+  type: string;
+}
 
 const App = () => {
+  const [populationData, setPopulationData] = useState({});
+  const [realEstateTransactionPrice, setRealEstateTransactionPrice] =
+    useState(0);
+
+  const URL = process.env.REACT_APP_RESAS_API_URL;
+  const API_KEY = process.env.REACT_APP_RESAS_API_KEY;
+
+  const fetchData = async (displayType: string) => {
+    try {
+      await axios
+        .get(
+          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=2015&prefCode=13&displayType=${displayType}`,
+          {
+            headers: {
+              "X-API-KEY": API_KEY,
+            },
+          },
+        )
+        .then((response) => {
+          setPopulationData(response.data);
+          console.log(response.data);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDataDownload = (data: DownloadData) => {
+    fetchData(data.type);
+    setRealEstateTransactionPrice(
+      (populationData as any).result?.years[0].value,
+    );
+    // console.log((populationData as any).result?.years[0].value);
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -24,7 +65,7 @@ const App = () => {
           </h1>
         </div>
         <Graph />
-        <Control />
+        <Control onDownload={handleDataDownload} />
       </main>
       <footer className="footer">
         <div className="footer__left">

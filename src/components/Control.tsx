@@ -2,8 +2,22 @@ import "./Control.scss";
 import place_icon from "../images/place_icon.svg";
 import calendar_icon from "../images/calendar_icon.svg";
 import type_icon from "../images/type_icon.svg";
+import { useState } from "react";
 
-const Control = () => {
+interface ControlProps {
+  onDownload: (data: { type: string }) => void;
+}
+
+const Control: React.FC<ControlProps> = ({ onDownload }) => {
+  const [selectedType, setSelectedType] = useState("");
+
+  const handleDownload = () => {
+    const dataToSend = {
+      type: selectedType,
+    };
+    onDownload(dataToSend);
+  };
+
   return (
     <div className="control">
       <div className="control__header">
@@ -44,26 +58,51 @@ const Control = () => {
             <span className="control__text">種類</span>
           </td>
           <td className="control__type">
-            <input type="radio" name="type" value="residential" />{" "}
+            <input
+              type="radio"
+              name="type"
+              value="1"
+              onChange={(e) => setSelectedType(e.target.value)}
+            />{" "}
             土地（住宅地）
             <br />
-            <input type="radio" name="type" value="commercial-area" />{" "}
+            <input
+              type="radio"
+              name="type"
+              value="2"
+              onChange={(e) => setSelectedType(e.target.value)}
+            />{" "}
             土地（商業地）
             <br />
             <input
               type="radio"
               name="type"
-              value="second-hand-apartment"
+              value="3"
+              onChange={(e) => setSelectedType(e.target.value)}
             />{" "}
             中古マンション等
             <br />
-            <input type="radio" name="type" value="farmland" /> 農地
+            <input
+              type="radio"
+              name="type"
+              value="4"
+              onChange={(e) => setSelectedType(e.target.value)}
+            />{" "}
+            農地
             <br />
-            <input type="radio" name="type" value="woodland" /> 林地
+            <input
+              type="radio"
+              name="type"
+              value="5"
+              onChange={(e) => setSelectedType(e.target.value)}
+            />{" "}
+            林地
           </td>
         </tr>
       </table>
-      <button className="control__button">データをダウンロード</button>
+      <button className="control__button" onClick={handleDownload}>
+        データをダウンロード
+      </button>
     </div>
   );
 };
