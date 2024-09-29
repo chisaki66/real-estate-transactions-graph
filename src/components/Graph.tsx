@@ -4,7 +4,8 @@ import { Chart, registerables } from "chart.js";
 import place_icon_white from "../images/place_icon_white.svg";
 import calendar_icon_white from "../images/calendar_icon_white.svg";
 import type_icon_white from "../images/type_icon_white.svg";
-import replaceData from "./replaceData";
+import replaceData from "../replaceData";
+import constantList from "../constantList";
 
 Chart.register(...registerables);
 
@@ -17,6 +18,10 @@ interface GraphProps {
 }
 
 const { replaceDownloadPrefectures, replaceType } = replaceData;
+const {
+  DEFAULT_SElECTED_REAL_ESTATE_TRANSACTION_PRICE,
+  DEFAULT_AVERAGE_REAL_ESTATE_TRANSACTION_PRICE,
+} = constantList;
 
 const options = {
   responsive: true,
@@ -58,10 +63,6 @@ const Graph: React.FC<GraphProps> = ({
   selectedRealEstateTransactionPrice,
   averageRealEstateTransactionPrice,
 }) => {
-  // MEMO: デフォルトで指定した条件に基づいて算出された数値
-  const DEFAULT_SElECTED_REAL_ESTATE_TRANSACTION_PRICE = 391400;
-  const DEFAULT_AVERAGE_REAL_ESTATE_TRANSACTION_PRICE = 51318.255319148935;
-
   const data = {
     labels: [`${replaceDownloadPrefectures(downloadPrefectures)}`, "全国平均"],
     datasets: [

@@ -3,6 +3,7 @@ import place_icon_black from "../images/place_icon_black.svg";
 import calendar_icon_black from "../images/calendar_icon_black.svg";
 import type_icon_black from "../images/type_icon_black.svg";
 import { useState } from "react";
+import constantList from "../constantList";
 
 interface ControlProps {
   onDownload: (data: {
@@ -12,14 +13,12 @@ interface ControlProps {
   }) => void;
 }
 
+const { START_YEAR, END_YEAR } = constantList;
+
 const Control: React.FC<ControlProps> = ({ onDownload }) => {
   const [selectedYear, setSelectedYear] = useState(0);
   const [selectedType, setSelectedType] = useState("");
   const [selectedPrefectures, setSelectedPrefectures] = useState("");
-
-  // MEMO: APIの指定可能年度を定数として定義
-  const START_YEAR = 2009;
-  const END_YEAR = 2021;
 
   const generateYears = () => {
     const years = [];
