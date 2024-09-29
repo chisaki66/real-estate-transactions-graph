@@ -1,6 +1,6 @@
 import "./Graph.scss";
 import { Bar } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
+import { Chart, registerables, ScriptableContext } from "chart.js";
 import place_icon_white from "../images/place_icon_white.svg";
 import calendar_icon_white from "../images/calendar_icon_white.svg";
 import type_icon_white from "../images/type_icon_white.svg";
@@ -32,8 +32,8 @@ const options = {
       },
     },
     tooltip: {
-      titleColor: "rgba(0, 0, 0, 1)",
-      bodyColor: "rgba(0, 0, 0, 1)",
+      titleColor: "rgba(255, 255, 255, 1)",
+      bodyColor: "rgba(255, 255, 255, 1)",
     },
   },
   scales: {
@@ -67,7 +67,7 @@ const Graph: React.FC<GraphProps> = ({
     labels: [`${replaceDownloadPrefectures(downloadPrefectures)}`, "全国平均"],
     datasets: [
       {
-        label: "Dataset",
+        label: "不動産取引価格",
         data: [
           selectedRealEstateTransactionPrice === 0
             ? DEFAULT_SElECTED_REAL_ESTATE_TRANSACTION_PRICE
@@ -76,7 +76,28 @@ const Graph: React.FC<GraphProps> = ({
             ? DEFAULT_AVERAGE_REAL_ESTATE_TRANSACTION_PRICE
             : averageRealEstateTransactionPrice,
         ],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(112, 109, 101, 1)"],
+        backgroundColor: (context: ScriptableContext<"bar">) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          if (!chartArea) {
+            return undefined;
+          }
+
+          const gradient = ctx.createLinearGradient(
+            0,
+            0,
+            chartArea.right,
+            chartArea.bottom,
+          );
+          gradient.addColorStop(0, "rgba(0, 153, 180, 1)");
+          gradient.addColorStop(0.6, "rgba(191, 191, 74, 1)");
+          gradient.addColorStop(1, "rgba(255, 221, 74, 1)");
+
+          const index = context.dataIndex;
+
+          return index === 0 ? gradient : "rgba(112, 109, 101, 1)";
+        },
       },
     ],
   };
