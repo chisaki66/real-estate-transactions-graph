@@ -78,7 +78,7 @@ const App = () => {
       );
       const totalRealEstateTransactionPrice = responses.reduce(
         (sum, response) => {
-          const value = response.data.result?.years[0].value;
+          const value = response.data.result?.years[0].value || 0;
           return sum + value;
         },
         0,
