@@ -8,6 +8,7 @@ import axios from "axios";
 import { useState } from "react";
 
 interface DownloadData {
+  prefectures: string;
   year: number;
   type: string;
 }
@@ -17,17 +18,22 @@ const App = () => {
     selectedRealEstateTransactionPrice,
     setSelectedRealEstateTransactionPrice,
   ] = useState(0);
+  const [downloadPrefectures, setDownloadPrefectures] = useState("");
   const [downloadYear, setDownloadYear] = useState(0);
   const [downloadType, setDownloadType] = useState("");
 
   const URL = process.env.REACT_APP_RESAS_API_URL;
   const API_KEY = process.env.REACT_APP_RESAS_API_KEY;
 
-  const fetchData = async (year: number, displayType: string) => {
+  const fetchData = async (
+    prefectures: string,
+    year: number,
+    displayType: string,
+  ) => {
     try {
       await axios
         .get(
-          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=${year}&prefCode=13&displayType=${displayType}`,
+          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=${year}&prefCode=${prefectures}&displayType=${displayType}`,
           {
             headers: {
               "X-API-KEY": API_KEY,
@@ -45,7 +51,8 @@ const App = () => {
   };
 
   const handleDataDownload = (data: DownloadData) => {
-    fetchData(data.year, data.type);
+    fetchData(data.prefectures, data.year, data.type);
+    setDownloadPrefectures(data.prefectures);
     setDownloadYear(data.year);
     setDownloadType(data.type);
   };
@@ -70,6 +77,7 @@ const App = () => {
         <div className="contents">
           <div className="graph-box">
             <Graph
+              downloadPrefectures={downloadPrefectures}
               year={downloadYear}
               type={downloadType}
               selectedRealEstateTransactionPrice={
