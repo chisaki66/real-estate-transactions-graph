@@ -116,4 +116,6 @@ const replaceType = (data: string) => {
   }
 };
 
-export default { replaceDownloadPrefectures, replaceType };
+const replaceData = { replaceDownloadPrefectures, replaceType };
+
+export default replaceData;
