@@ -13,6 +13,7 @@ interface GraphProps {
   year: number;
   type: string;
   selectedRealEstateTransactionPrice: number;
+  averageRealEstateTransactionPrice: number;
 }
 
 const { replaceDownloadPrefectures, replaceType } = replaceData;
@@ -55,7 +56,12 @@ const Graph: React.FC<GraphProps> = ({
   year,
   type,
   selectedRealEstateTransactionPrice,
+  averageRealEstateTransactionPrice,
 }) => {
+  // MEMO: デフォルトで指定した条件に基づいて算出された数値
+  const DEFAULT_SElECTED_REAL_ESTATE_TRANSACTION_PRICE = 391400;
+  const DEFAULT_AVERAGE_REAL_ESTATE_TRANSACTION_PRICE = 51318.255319148935;
+
   const data = {
     labels: [`${replaceDownloadPrefectures(downloadPrefectures)}`, "全国平均"],
     datasets: [
@@ -63,9 +69,11 @@ const Graph: React.FC<GraphProps> = ({
         label: "Dataset",
         data: [
           selectedRealEstateTransactionPrice === 0
-            ? 391400
+            ? DEFAULT_SElECTED_REAL_ESTATE_TRANSACTION_PRICE
             : selectedRealEstateTransactionPrice,
-          20000,
+          averageRealEstateTransactionPrice === 0
+            ? DEFAULT_AVERAGE_REAL_ESTATE_TRANSACTION_PRICE
+            : averageRealEstateTransactionPrice,
         ],
         backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(112, 109, 101, 1)"],
       },

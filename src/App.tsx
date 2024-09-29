@@ -18,6 +18,10 @@ const App = () => {
     selectedRealEstateTransactionPrice,
     setSelectedRealEstateTransactionPrice,
   ] = useState(0);
+  const [
+    averageRealEstateTransactionPrice,
+    setAverageRealEstateTransactionPrice,
+  ] = useState(0);
   const [downloadPrefectures, setDownloadPrefectures] = useState("");
   const [downloadYear, setDownloadYear] = useState(0);
   const [downloadType, setDownloadType] = useState("");
@@ -26,14 +30,14 @@ const App = () => {
   const API_KEY = process.env.REACT_APP_RESAS_API_KEY;
 
   const fetchData = async (
-    prefectures: string,
+    prefCode: string,
     year: number,
     displayType: string,
   ) => {
     try {
       await axios
         .get(
-          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=${year}&prefCode=${prefectures}&displayType=${displayType}`,
+          `${URL}/api/v1/townPlanning/estateTransaction/bar?year=${year}&prefCode=${prefCode}&displayType=${displayType}`,
           {
             headers: {
               "X-API-KEY": API_KEY,
@@ -50,8 +54,47 @@ const App = () => {
     }
   };
 
+  const fetchAverageData = async (year: number, displayType: string) => {
+    const generatePrefectureCodes = () => {
+      const prefectureCodes = [];
+      for (let prefectureCode = 1; prefectureCode <= 47; prefectureCode++) {
+        prefectureCodes.push(prefectureCode);
+      }
+      return prefectureCodes;
+    };
+
+    try {
+      const responses = await Promise.all(
+        generatePrefectureCodes().map((prefCode) =>
+          axios.get(
+            `${URL}/api/v1/townPlanning/estateTransaction/bar?year=${year}&prefCode=${prefCode}&displayType=${displayType}`,
+            {
+              headers: {
+                "X-API-KEY": API_KEY,
+              },
+            },
+          ),
+        ),
+      );
+      const totalRealEstateTransactionPrice = responses.reduce(
+        (sum, response) => {
+          const value = response.data.result?.years[0].value;
+          return sum + value;
+        },
+        0,
+      );
+
+      setAverageRealEstateTransactionPrice(
+        totalRealEstateTransactionPrice / generatePrefectureCodes().length,
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleDataDownload = (data: DownloadData) => {
     fetchData(data.prefectures, data.year, data.type);
+    fetchAverageData(data.year, data.type);
     setDownloadPrefectures(data.prefectures);
     setDownloadYear(data.year);
     setDownloadType(data.type);
@@ -82,6 +125,9 @@ const App = () => {
               type={downloadType}
               selectedRealEstateTransactionPrice={
                 selectedRealEstateTransactionPrice
+              }
+              averageRealEstateTransactionPrice={
+                averageRealEstateTransactionPrice
               }
             />
           </div>
