@@ -13,8 +13,10 @@ interface DownloadData {
 }
 
 const App = () => {
-  const [realEstateTransactionPrice, setRealEstateTransactionPrice] =
-    useState(0);
+  const [
+    selectedRealEstateTransactionPrice,
+    setSelectedRealEstateTransactionPrice,
+  ] = useState(0);
   const [downloadYear, setDownloadYear] = useState(0);
   const [downloadType, setDownloadType] = useState("");
 
@@ -33,7 +35,9 @@ const App = () => {
           },
         )
         .then((response) => {
-          setRealEstateTransactionPrice(response.data.result?.years[0].value);
+          setSelectedRealEstateTransactionPrice(
+            response.data.result?.years[0].value,
+          );
         });
     } catch (error) {
       console.error(error);
@@ -42,8 +46,6 @@ const App = () => {
 
   const handleDataDownload = (data: DownloadData) => {
     fetchData(data.year, data.type);
-    console.log(data.year);
-    console.log(data.type);
     setDownloadYear(data.year);
     setDownloadType(data.type);
   };
@@ -67,7 +69,13 @@ const App = () => {
         </div>
         <div className="contents">
           <div className="graph-box">
-            <Graph year={downloadYear} type={downloadType} />
+            <Graph
+              year={downloadYear}
+              type={downloadType}
+              selectedRealEstateTransactionPrice={
+                selectedRealEstateTransactionPrice
+              }
+            />
           </div>
           <div className="control">
             <Control onDownload={handleDataDownload} />

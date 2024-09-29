@@ -10,18 +10,8 @@ Chart.register(...registerables);
 interface GraphProps {
   year: number;
   type: string;
+  selectedRealEstateTransactionPrice: number;
 }
-
-const data = {
-  labels: ["東京都", "全国平均"],
-  datasets: [
-    {
-      label: "Dataset",
-      data: [100, 59],
-      backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(112, 109, 101, 1)"],
-    },
-  ],
-};
 
 const options = {
   responsive: true,
@@ -56,7 +46,27 @@ const options = {
   },
 };
 
-const Graph: React.FC<GraphProps> = ({ year, type }) => {
+const Graph: React.FC<GraphProps> = ({
+  year,
+  type,
+  selectedRealEstateTransactionPrice,
+}) => {
+  const data = {
+    labels: ["東京都", "全国平均"],
+    datasets: [
+      {
+        label: "Dataset",
+        data: [
+          selectedRealEstateTransactionPrice === 0
+            ? 391400
+            : selectedRealEstateTransactionPrice,
+          20000,
+        ],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(112, 109, 101, 1)"],
+      },
+    ],
+  };
+
   const replaceType = (type: string) => {
     switch (type) {
       case "1":
