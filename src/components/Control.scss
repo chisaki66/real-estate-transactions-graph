@@ -65,4 +65,11 @@
     position: absolute;
     bottom: 0;
   }
+
+  &__button:hover {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #005f9e;
+    background-color: #005f9e;
+    border: solid 2px #005f9e;
+  }
 }

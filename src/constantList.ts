@@ -1,6 +1,6 @@
-// デフォルトの条件に基づいて算出された数値
+// デフォルトの条件に基づいて算出された不動産取引価格の数値
 const DEFAULT_SElECTED_REAL_ESTATE_TRANSACTION_PRICE = 391400;
-// デフォルトの条件に基づいて算出された平均の数値
+// デフォルトの条件に基づいて算出された不動産取引価格の平均の数値
 const DEFAULT_AVERAGE_REAL_ESTATE_TRANSACTION_PRICE = 51318.255319148935;
 
 // APIの指定可能年度
