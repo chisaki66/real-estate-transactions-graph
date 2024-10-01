@@ -117,7 +117,11 @@ const Graph: React.FC<GraphProps> = ({
           <i>
             <img src={calendar_icon_white} alt="calendar_icon_white" />
           </i>
-          <span className="graph__text">{year === 0 ? 2021 : year}年</span>
+          {year === 0 ? (
+            <span className="graph__text">2021年</span>
+          ) : (
+            <span className="graph__text">{year}年</span>
+          )}
         </li>
         <li className="graph__header-list">
           <i>
